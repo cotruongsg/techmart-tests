@@ -54,7 +54,7 @@ jobs:
 
       # 6. Upload báo cáo HTML kết quả test làm Artifact cho GitHub Pages
       - name: Upload HTML Report Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         if: ${{ !cancelled() }}
         with:
           path: tests/traditional/playwright-report/
