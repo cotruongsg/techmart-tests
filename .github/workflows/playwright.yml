@@ -33,23 +33,15 @@ jobs:
       - name: Install Playwright Browsers with deps
         run: |
           cd tests/traditional
-          npx playwright install --with-deps
+          npx playwright install --with-deps     
 
-      # 5. Khởi chạy Sample App
-      - name: Start Sample App
-        run: |
-          cd sample-app
-          npm ci
-          npm start &
-          npx wait-on http://localhost:3000
-
-      # 6. Thực thi Test qua Cloudflare Tunnel
+      # 5. Thực thi Test qua Cloudflare Tunnel
       - name: Run Playwright Tests with Tunnel
         run: |
           cd tests/traditional/tests
           npm run test:api:tunnel
 
-      # 7. Upload báo cáo HTML kết quả test
+      # 6. Upload báo cáo HTML kết quả test
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
