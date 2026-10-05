@@ -7,6 +7,17 @@ on:
     branches: [ main, master ]
   workflow_dispatch: # Cho phép nhấn nút chạy tay bất kỳ lúc nào
 
+# 1. Cấp quyền cho GitHub Actions deploy lên GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Tránh xung đột khi deploy Pages cùng lúc
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   test:
     timeout-minutes: 60
@@ -33,7 +44,7 @@ jobs:
       - name: Install Playwright Browsers with deps
         run: |
           cd tests/traditional
-          npx playwright install --with-deps     
+          npx playwright install --with-deps
 
       # 5. Thực thi Test qua Cloudflare Tunnel
       - name: Run Playwright Tests with Tunnel
@@ -41,11 +52,22 @@ jobs:
           cd tests/traditional/tests
           npm run test:api:tunnel
 
-      # 6. Upload báo cáo HTML kết quả test
-      - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
+      # 6. Upload báo cáo HTML kết quả test làm Artifact cho GitHub Pages
+      - name: Upload HTML Report Artifact
+        uses: actions/upload-pages-artifact@v3
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
           path: tests/traditional/playwright-report/
-          retention-days: 30
+
+  # 2. Job tự động Deploy Báo cáo lên GitHub Pages
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: test
+    if: ${{ !cancelled() }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
