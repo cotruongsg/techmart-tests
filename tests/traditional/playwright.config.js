@@ -30,14 +30,14 @@ module.exports = defineConfig({
     // Base URL for the application
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
     
-    // Collect trace on first retry
-    trace: 'on-first-retry',
+    /* Tự động lưu Trace Log khi test fail */
+    trace: 'retain-on-failure',
     
     // Screenshot on failure
     screenshot: 'only-on-failure',
     
-    // Video on failure
-    video: 'on-first-retry',
+    /* Tự động quay Video khi test fail */
+    video: 'retain-on-failure',
   },
 
   // Configure projects for major browsers
