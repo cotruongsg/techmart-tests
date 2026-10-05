@@ -46,7 +46,7 @@ jobs:
       # 6. Thực thi Test qua Cloudflare Tunnel
       - name: Run Playwright Tests with Tunnel
         run: |
-          cd tests/traditional
+          cd tests/traditional/tests
           npm run test:api:tunnel
 
       # 7. Upload báo cáo HTML kết quả test
