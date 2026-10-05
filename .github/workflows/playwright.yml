@@ -1,0 +1,59 @@
+name: Playwright Tests with Cloudflare Tunnel
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: # Cho phép nhấn nút chạy tay bất kỳ lúc nào
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Tải mã nguồn về máy chủ ảo
+      - uses: actions/checkout@v4
+
+      # 2. Cài đặt Node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+          cache-dependency-path: tests/traditional/package-lock.json
+
+      # 3. Cài đặt các thư viện trong thư mục tests/traditional
+      - name: Install dependencies
+        run: |
+          cd tests/traditional
+          npm ci
+
+      # 4. Cài đặt Trình duyệt cho Playwright
+      - name: Install Playwright Browsers with deps
+        run: |
+          cd tests/traditional
+          npx playwright install --with-deps
+
+      # 5. Khởi chạy Sample App
+      - name: Start Sample App
+        run: |
+          cd sample-app
+          npm ci
+          npm start &
+          npx wait-on http://localhost:3000
+
+      # 6. Thực thi Test qua Cloudflare Tunnel
+      - name: Run Playwright Tests with Tunnel
+        run: |
+          cd tests/traditional
+          npm run test:api:tunnel
+
+      # 7. Upload báo cáo HTML kết quả test
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: tests/traditional/playwright-report/
+          retention-days: 30
