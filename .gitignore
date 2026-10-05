@@ -1,0 +1,27 @@
+# Node modules (Loại bỏ ở tất cả các cấp thư mục)
+node_modules/
+sample-app/node_modules/
+tests/traditional/node_modules/
+
+# Playwright artifacts & reports
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+tests/traditional/test-results/
+tests/traditional/playwright-report/
+
+# Logs & temp files
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Operating System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Tt]hmbs.db

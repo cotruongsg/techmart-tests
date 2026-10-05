@@ -10,8 +10,8 @@ module.exports = defineConfig({
   testDir: './tests',
   
   // Run tests serially for consistent state (demo app uses in-memory storage)
-  fullyParallel: false,
-  workers: 1,
+  fullyParallel: true,
+  workers: 2,
   
   // Fail the build on CI if you accidentally left test.only in the source code
   forbidOnly: !!process.env.CI,
@@ -28,7 +28,7 @@ module.exports = defineConfig({
   // Shared settings for all projects
   use: {
     // Base URL for the application
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
     
     // Collect trace on first retry
     trace: 'on-first-retry',
