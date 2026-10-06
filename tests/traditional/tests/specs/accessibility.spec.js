@@ -80,8 +80,11 @@ test.describe('Accessibility', () => {
   });
 
   test('interactive elements should be keyboard accessible', async ({ page }) => {
+    await page.locator(".logo").click(); // Focus on the logo to start
+    await page.waitForTimeout(500); // Small delay to allow focus change
     // Tab through the page and track what gets focus
     await page.keyboard.press('Tab');
+    await page.waitForTimeout(100); // Small delay to allow focus change
     
     const focusedTags = [];
     for (let i = 0; i < 10; i++) {
@@ -91,6 +94,7 @@ test.describe('Accessibility', () => {
       });
       focusedTags.push(focused);
       await page.keyboard.press('Tab');
+      await page.waitForTimeout(100); // Small delay to allow focus change
     }
     
     // We should be able to reach links, inputs, and buttons via Tab

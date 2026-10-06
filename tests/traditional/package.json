@@ -8,7 +8,15 @@
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
     "test:tunnel": "node run-tunnel-test.js",
-    "test:api:tunnel": "node run-tunnel-test.js -- tests/api.spec.js"
+    "test:all-tests:tunnel": "node run-tunnel-test.js -- tests/specs/*.spec.js",
+    "test:homepage:tunnel": "node run-tunnel-test.js -- tests/specs/homepage.spec.js",
+    "test:api:tunnel": "node run-tunnel-test.js -- tests/specs/api.spec.js",
+    "test:auth:tunnel": "node run-tunnel-test.js -- tests/specs/auth.spec.js",
+    "test:cart:tunnel": "node run-tunnel-test.js -- tests/specs/cart.spec.js",
+    "test:checkout:tunnel": "node run-tunnel-test.js -- tests/specs/checkout.spec.js",
+    "test:edge-cases:tunnel": "node run-tunnel-test.js -- tests/specs/edge-cases.spec.js",
+    "test:mocking:tunnel": "node run-tunnel-test.js -- tests/specs/mocking.spec.js",
+    "test:accessibility:tunnel": "node run-tunnel-test.js -- tests/specs/accessibility.spec.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

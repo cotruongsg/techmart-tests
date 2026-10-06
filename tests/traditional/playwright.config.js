@@ -11,7 +11,7 @@ module.exports = defineConfig({
   
   // Run tests serially for consistent state (demo app uses in-memory storage)
   fullyParallel: true,
-  workers: 2,
+  workers: 10,
   
   // Fail the build on CI if you accidentally left test.only in the source code
   forbidOnly: !!process.env.CI,
