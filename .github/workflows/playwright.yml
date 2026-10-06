@@ -50,7 +50,7 @@ jobs:
       - name: Run Playwright Tests with Tunnel
         run: |
           cd tests/traditional/tests
-          npm run test:api:tunnel
+          npm run test:all-tests:tunnel
 
       # 6. Upload báo cáo HTML kết quả test làm Artifact cho GitHub Pages
       - name: Upload HTML Report Artifact
